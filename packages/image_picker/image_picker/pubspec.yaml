@@ -16,25 +16,29 @@ flutter:
         default_package: image_picker_android
       ios:
         default_package: image_picker_ios
-      web:
-        default_package: image_picker_for_web
 
 dependencies:
   flutter:
     sdk: flutter
-  image_picker_android: ^0.8.4+11
-  image_picker_for_web: ^2.1.0
-  image_picker_ios: ^0.8.4+11
-  image_picker_platform_interface: ^2.3.0
+  image_picker_android:
+    git:
+      url: https://github.com/ivansemkin/plugins.git
+      path: packages/image_picker/image_picker_android
+      ref: ios-optional-permissions
+  image_picker_ios:
+    git:
+      url: https://github.com/ivansemkin/plugins.git
+      path: packages/image_picker/image_picker_ios
+      ref: ios-optional-permissions
+  image_picker_platform_interface:
+    git:
+      url: https://github.com/ivansemkin/plugins.git
+      path: packages/image_picker/image_picker_platform_interface
+      ref: ios-optional-permissions
+
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   mockito: ^5.0.0
   plugin_platform_interface: ^2.0.0
-
-# FOR TESTING ONLY. DO NOT MERGE.
-dependency_overrides:
-  image_picker_platform_interface:
-    path:
-      ../image_picker_platform_interface
