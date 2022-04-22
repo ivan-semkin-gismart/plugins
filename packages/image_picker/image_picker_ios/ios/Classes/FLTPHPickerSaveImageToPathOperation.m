@@ -13,6 +13,7 @@ API_AVAILABLE(ios(14))
 @property(assign, nonatomic) NSNumber *maxHeight;
 @property(assign, nonatomic) NSNumber *maxWidth;
 @property(assign, nonatomic) NSNumber *desiredImageQuality;
+@property(assign, nonatomic) BOOL *isMetadataAvailable;
 
 @end
 
@@ -28,6 +29,7 @@ typedef void (^GetSavedPath)(NSString *);
                      maxHeight:(NSNumber *)maxHeight
                       maxWidth:(NSNumber *)maxWidth
            desiredImageQuality:(NSNumber *)desiredImageQuality
+           isMetadataAvailable:(BOOL)isMetadataAvailable
                 savedPathBlock:(GetSavedPath)savedPathBlock API_AVAILABLE(ios(14)) {
   if (self = [super init]) {
     if (result) {
@@ -36,6 +38,7 @@ typedef void (^GetSavedPath)(NSString *);
       self.maxWidth = maxWidth;
       self.desiredImageQuality = desiredImageQuality;
       getSavedPath = savedPathBlock;
+      self.isMetadataAvailable = isMetadataAvailable;
       executing = NO;
       finished = NO;
     } else {
@@ -113,15 +116,14 @@ typedef void (^GetSavedPath)(NSString *);
  * Processes the image.
  */
 - (void)processImage:(UIImage *)localImage API_AVAILABLE(ios(14)) {
-  PHAsset *originalAsset = [FLTImagePickerPhotoAssetUtil getAssetFromPHPickerResult:self.result];
-
   if (self.maxWidth != nil || self.maxHeight != nil) {
     localImage = [FLTImagePickerImageUtil scaledImage:localImage
                                              maxWidth:self.maxWidth
                                             maxHeight:self.maxHeight
-                                  isMetadataAvailable:originalAsset != nil];
+                                  isMetadataAvailable:self.isMetadataAvailable];
   }
-  if (originalAsset) {
+  if (self.isMetadataAvailable) {
+    PHAsset *originalAsset = [FLTImagePickerPhotoAssetUtil getAssetFromPHPickerResult:self.result];
     [[PHImageManager defaultManager]
         requestImageDataForAsset:originalAsset
                          options:nil
