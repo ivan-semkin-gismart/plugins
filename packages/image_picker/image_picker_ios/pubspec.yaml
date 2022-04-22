@@ -18,15 +18,13 @@ flutter:
 dependencies:
   flutter:
     sdk: flutter
-  image_picker_platform_interface: ^2.3.0
+  image_picker_platform_interface:
+    git:
+      url: https://github.com/ivansemkin/plugins.git
+      path: packages/image_picker/image_picker_platform_interface
+      ref: ios-optional-permissions
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   mockito: ^5.0.0
-
-# FOR TESTING ONLY. DO NOT MERGE.
-dependency_overrides:
-  image_picker_platform_interface:
-    path:
-      ../image_picker_platform_interface
