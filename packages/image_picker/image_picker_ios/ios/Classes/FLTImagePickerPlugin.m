@@ -453,7 +453,7 @@ typedef NS_ENUM(NSInteger, ImagePickerClassType) { UIImagePickerClassType, PHPic
     NSNumber *desiredImageQuality = [self getDesiredImageQuality:imageQuality];
     NSOperationQueue *operationQueue = [NSOperationQueue new];
     NSMutableArray *pathList = [self createNSMutableArrayWithSize:results.count];
-
+    BOOL usePHAsset = [[_arguments objectForKey:@"requestFullMetadata"] boolValue];
     for (int i = 0; i < results.count; i++) {
       PHPickerResult *result = results[i];
       FLTPHPickerSaveImageToPathOperation *operation =
@@ -461,6 +461,7 @@ typedef NS_ENUM(NSInteger, ImagePickerClassType) { UIImagePickerClassType, PHPic
                                                             maxHeight:maxHeight
                                                              maxWidth:maxWidth
                                                   desiredImageQuality:desiredImageQuality
+                                                  isMetadataAvailable:usePHAsset
                                                        savedPathBlock:^(NSString *savedPath) {
                                                          pathList[i] = savedPath;
                                                        }];
